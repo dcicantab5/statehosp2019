@@ -1,0 +1,128 @@
+---
+title: "State Hospitals"
+
+author:
+  - name: Dr Saiful Safuan Md Sani 
+    url: https://saifulsafuan.com
+    affiliation: Clinical Research Centre & Department of Medicine Hospital Kuala Lumpur
+date: "`2021-11-23`"
+output: 
+  distill::distill_article:
+    self_contained: yes
+    toc: yes
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(distill)
+library(googlesheets)
+library(gsheet)
+library(dplyr)
+library(ggplot2)
+library(plotly)
+#library(zoo) # moving averages
+#library(RcppRoll) # running total
+```
+```{r chartstudio, include=FALSE}
+Sys.setenv("plotly_username"="dcicantab5")
+Sys.setenv("plotly_api_key"="zY42xxH3ClQIvgjdFZlH")
+```
+
+```{r url, include=FALSE}
+url <- 'https://docs.google.com/spreadsheets/d/1WisQxJwESMHPfyo1Nk9qzLsgJi9BsJCuLxXxn1OB04w/edit?usp=sharing'  # kkm data from datuk noel thomas from dr cheah wee kooi; email feb 2021
+sthos <- gsheet2tbl(url)
+
+rownames(sthos) <- sthos$hospital
+rownames(sthos)
+
+data <- arrange(sthos, desc(spec_per_1000_adm))
+```
+# State hospitals: Specialist per 1000 admission
+```{r, fig.cap="State hospitals: Specialist per 1000 admission.", out.extra="class=external",  fig.width=12, fig.height=6, message=FALSE, echo=FALSE, warning=FALSE}
+
+p <- plot_ly(data, x = ~spec_per_1000_adm, y = ~reorder(hospital, -spec_per_1000_adm), text = rownames(sthos), type = 'bar', 
+             name = '',
+            orientation = 'h', bar = list(color = "#150377", opacity = 0.93))
+
+
+p <- p %>%  layout(title = list(text = '', font = list(size = 14)),
+                   xaxis = list(
+                     title = "Specialist per 1000 admission",
+                     tickfont = list(
+                       size = 11)),
+                   yaxis = list(
+                     title = '',
+                     titlefont = list(
+                       size = 13),
+                     tickfont = list(
+                       size = 14)),
+                   legend = list(x = 0, y = 1, bgcolor = 'rgba(255, 255, 255, 0)', bordercolor = 'rgba(255, 255, 255, 0)'),
+                   bargap = 0.15, bargroupgap = 0.1)
+p 
+```
+```{r, echo=FALSE}
+#options(browser = 'false')
+#api_create(p, filename = "sthos_spec_per1000adm")
+```
+# State hospitals: Death per 1000 admission
+```{r, fig.cap="State hospitals: Death per 1000 admission.", out.extra="class=external",  fig.width=12, fig.height=6, message=FALSE, echo=FALSE, warning=FALSE}
+
+p <- plot_ly(data, x = ~death_per_1000_adm, y = ~reorder(hospital, death_per_1000_adm), text = rownames(sthos), type = 'bar', 
+             name = '',
+            orientation = 'h', bar = list(color = "#150377", opacity = 0.93))
+
+
+p <- p %>%  layout(title = list(text = '', font = list(size = 14)),
+                   xaxis = list(
+                     title = "Death per 1000 admission",
+                     tickfont = list(
+                       size = 11)),
+                   yaxis = list(
+                     title = '',
+                     titlefont = list(
+                       size = 13),
+                     tickfont = list(
+                       size = 14)),
+                   legend = list(x = 0, y = 1, bgcolor = 'rgba(255, 255, 255, 0)', bordercolor = 'rgba(255, 255, 255, 0)'),
+                   bargap = 0.15, bargroupgap = 0.1)
+p 
+```
+```{r, echo=FALSE}
+#options(browser = 'false')
+#api_create(p, filename = "sthos_death_per1000adm")
+```
+# State hospitals: diversity in provision and outcome
+```{r, fig.cap="State hospitals: diversity in provision and outcome.", out.extra="class=external",  fig.width=12, fig.height=6, message=FALSE, echo=FALSE, warning=FALSE}
+
+p <- plot_ly(sthos, x = ~spec_per_1000_adm, y = ~death_per_1000_adm, text = rownames(sthos), type = 'scatter', 
+             name = '',
+             mode = "markers", marker = list(color = "#150377", opacity = 0.93, size = 13))
+
+
+p <- p %>%  layout(title = list(text = '', font = list(size = 14)),
+                   xaxis = list(
+                     title = "Specialist per 1000 admission",
+                     tickfont = list(
+                       size = 11)),
+                   yaxis = list(
+                     title = 'Death per 1000 admission',
+                     titlefont = list(
+                       size = 13),
+                     tickfont = list(
+                       size = 14)),
+                   legend = list(x = 0, y = 1, bgcolor = 'rgba(255, 255, 255, 0)', bordercolor = 'rgba(255, 255, 255, 0)'),
+                   barmode = 'group', bargap = 0.15, bargroupgap = 0.1)
+p
+```
+```{r, echo=FALSE}
+#options(browser = 'false')
+#api_create(p, filename = "sthos_death_spec")
+```
+
+
+
+
+
+
+

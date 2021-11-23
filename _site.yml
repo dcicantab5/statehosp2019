@@ -1,0 +1,12 @@
+name: "sthos2019"
+title: "Medical Programme State Hospitals"
+description: |
+  Medical Programme State Hospitals
+output_dir: "docs"
+navbar:
+  right:
+    - text: "State Hospitals"
+      href: state_hosp.html
+    - text: "About"
+      href: about.html
+output: distill::distill_article
