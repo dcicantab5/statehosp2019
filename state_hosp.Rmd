@@ -41,7 +41,7 @@ data <- arrange(sthos, desc(spec_per_1000_adm))
 # State hospitals: Specialist per 1000 admission
 ```{r, fig.cap="State hospitals: Specialist per 1000 admission.", out.extra="class=external",  fig.width=12, fig.height=6, message=FALSE, echo=FALSE, warning=FALSE}
 
-p <- plot_ly(data, x = ~spec_per_1000_adm, y = ~reorder(hospital, -spec_per_1000_adm), text = rownames(sthos), type = 'bar', 
+p <- plot_ly(data, x = ~spec_per_1000_adm, y = ~reorder(hospital, -spec_per_1000_adm), type = 'bar', 
              name = '',
             orientation = 'h', bar = list(color = "#150377", opacity = 0.93))
 
@@ -68,7 +68,7 @@ p
 # State hospitals: Death per 1000 admission
 ```{r, fig.cap="State hospitals: Death per 1000 admission.", out.extra="class=external",  fig.width=12, fig.height=6, message=FALSE, echo=FALSE, warning=FALSE}
 
-p <- plot_ly(data, x = ~death_per_1000_adm, y = ~reorder(hospital, death_per_1000_adm), text = rownames(sthos), type = 'bar', 
+p <- plot_ly(data, x = ~death_per_1000_adm, y = ~reorder(hospital, death_per_1000_adm), type = 'bar', 
              name = '',
             orientation = 'h', bar = list(color = "#150377", opacity = 0.93))
 
